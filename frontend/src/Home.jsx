@@ -31,13 +31,12 @@ function Home() {
         getlogedin()
     }, [])
 
-
     return (
         <div className=''>
             <div>
                 <ul className=' flex p-4 absolute sm:right-36'>
                     <li className=' mx-2 font-semibold hover:border-b-2 border-green-600 text-md'><Link to="compiler">Compiler</Link></li>
-                    <li className=' mx-2 font-semibold hover:border-b-2 border-green-600 text-md'>Practice</li>
+                    <li className=' mx-2 font-semibold hover:border-b-2 border-green-600 text-md'><Link to="practice">Practice</Link></li>
                     <li className=' mx-2 font-semibold hover:border-b-2 border-green-600 text-md'>Certificate</li>
                     <section className={`${logedin ? "" : "hidden"} flex `}>
                         <CgProfile size={30} />
@@ -56,10 +55,11 @@ function Home() {
                     <p className='text-md sm:text-lg my-2'>Code master is platform to leran fundamentals of coding.It also provide online compiler for various languages like c++, java, python etc. Code mater also provide set of questions to test your coding skills.</p>
                     <section className=' flex'>
                         <button className=' bg-green-700 text-white px-3 py-1 rounded-2xl font-semibold'>Start Learning</button>
-                        <section className=' flex mx-4 '>
+                        <Link to="/compiler"><section className=' flex mx-4 '>
                             <HiCode size={30} className=' text-green-600 mx-1' />
                             <button className=' text-green-600 font-bold text-lg hover:border-b-2 border-green-600'> Compiler</button>
                         </section>
+                        </Link>
                     </section>
                 </div>
                 <div className='w-full sm:w-[57%] sm:h-[87vh] flex justify-center items-center'>

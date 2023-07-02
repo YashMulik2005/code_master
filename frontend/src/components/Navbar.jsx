@@ -45,7 +45,7 @@ function Navbar() {
                     <li className=' inline font-semibold hover:border-b-2 text-black'>Contact</li>
                     <li className=' inline font-semibold hover:border-b-2 text-black'>Help</li>
                     <section >
-                        {theme == "garden" ? <section className=' flex items-center' onClick={handletheme} size={30}>
+                        {theme == "light" ? <section className=' flex items-center' onClick={handletheme} size={30}>
                             <h1 className=' text-black font-semibold'>Dark Mode</h1> <MdDarkMode size={30} className=' text-black' />
                         </section> : <section className=' flex items-center' onClick={handletheme} >
                             <h1 className=' text-black font-semibold'>Light Mode</h1> <MdOutlineLightMode size={30} className=' text-black' />

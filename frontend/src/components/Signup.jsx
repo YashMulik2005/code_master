@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { GiCancel } from 'react-icons/gi'
 import { AiFillGoogleCircle, AiFillGithub, AiFillFacebook } from 'react-icons/ai'
+import { PulseLoader } from 'react-spinners'
 
 function Signup() {
     const [fname, setfname] = useState("")
@@ -12,10 +13,12 @@ function Signup() {
     const [email, setemail] = useState("")
     const [err, seterr] = useState(false)
     const [statement, setstatement] = useState("")
+    const [loader, setloader] = useState(false)
     const navigate = useNavigate()
 
     const handlesubmit = async (e) => {
         e.preventDefault()
+        setloader(true)
         const data = {
             "username": username,
             "email": email,
@@ -28,26 +31,29 @@ function Signup() {
         console.log(result);
         if (result.data.data.sucess) {
             setstatement("Account created sucessfully.")
+            seterr(true)
         }
         else {
             setstatement("Username already exist.")
             seterr(true)
         }
+        setloader(false)
         setfname("")
         setlname("")
         setusername("")
         setpassword("")
         setemail("")
     }
-
     return (
         <div className=' sm:p-2'>
-            <section className={` ${err ? "" : "hidden"} p-1 px-3 flex justify-between items-center bg-green-600 text-white rounded-lg `} >
-                <h1 className=' text-center font-semibold text-md'>{statement}</h1>
-                <GiCancel size={20} onClick={() => {
-                    seterr(false)
-                }} />
-            </section>
+            {(loader ? <section className=' text-center'><PulseLoader size={15} color='green' /></section> :
+                <section className={` ${err ? "" : "hidden"} p-1 px-3 flex justify-between items-center bg-green-600 text-white rounded-lg `} >
+                    <h1 className=' text-center font-semibold text-md'>{statement}</h1>
+                    <GiCancel size={20} onClick={() => {
+                        seterr(false)
+                    }} />
+                </section>
+            )}
             <form action="" onSubmit={handlesubmit}>
                 <section className=' flex'>
                     <section className=' mx-2'>

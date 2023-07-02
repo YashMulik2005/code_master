@@ -6,6 +6,7 @@ export const Codeprovider = ({ children }) => {
     const [theme, settheme] = useState(localStorage.getItem("theme") ? localStorage.getItem("theme") : "light")
     const [contextusername, setcontextusername] = useState("")
     const [logedin, setlogedin] = useState(false)
+    const [topic, settopic] = useState("all")
 
     const value = {
         theme,
@@ -13,7 +14,9 @@ export const Codeprovider = ({ children }) => {
         contextusername,
         setcontextusername,
         logedin,
-        setlogedin
+        setlogedin,
+        topic,
+        settopic
     }
 
     return <CodeContext.Provider value={value}>
