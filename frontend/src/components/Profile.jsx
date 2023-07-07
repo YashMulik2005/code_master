@@ -6,18 +6,19 @@ import themehook from './CodeContext'
 
 function Profile() {
     const navigate = useNavigate()
-    const { logedin, setlogedin } = themehook()
+    const { logedin, setlogedin, setcontextusername } = themehook()
     const handlelogout = async () => {
-        const result = await axios.get("http://localhost:3000/profile")
+        const result = await axios.get("http://localhost:3000/user/profile")
         console.log(result);
         if (result.data.data.sucess) {
             setlogedin(false)
+            setcontextusername("")
             navigate("/")
         }
     }
 
     return (
-        <div>
+        <div >
             <button onClick={handlelogout}>logout</button>
         </div>
     )

@@ -7,6 +7,7 @@ export const Codeprovider = ({ children }) => {
     const [contextusername, setcontextusername] = useState("")
     const [logedin, setlogedin] = useState(false)
     const [topic, settopic] = useState("all")
+    const [topic_id, settopic_id] = useState()
 
     const value = {
         theme,
@@ -16,7 +17,9 @@ export const Codeprovider = ({ children }) => {
         logedin,
         setlogedin,
         topic,
-        settopic
+        settopic,
+        topic_id,
+        settopic_id
     }
 
     return <CodeContext.Provider value={value}>

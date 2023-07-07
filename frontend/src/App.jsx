@@ -10,6 +10,8 @@ import Profile from './components/Profile'
 import Onlinecompiler from './compiler/onlinecompiler'
 import Practice from './compiler/Practice'
 import Question from './compiler/Question'
+import Coursetopic from './course/Coursetopic'
+import Topicdata from './course/Topicdata'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -23,7 +25,7 @@ function App() {
               <Route index element={<Layout />} />
               <Route path='/profile' element={<Profile />} />
               <Route path='/practice' element={<Practice />} />
-              {/* <Route path='/practice/topic' element={<Practice />} /> */}
+              <Route path='/course/:id' element={<Coursetopic />} />
               <Route path='/auth' element={<Auth />}>
                 <Route index element={<Login />} />
                 <Route path='login' element={<Login />} />
@@ -32,6 +34,7 @@ function App() {
             </Route>
             <Route path='/compiler' element={<Onlinecompiler />} />
             <Route path='/practice/question/:id' element={<Question />} />
+            <Route path='/course/topic' element={<Topicdata />} />
           </Routes>
         </BrowserRouter>
       </div>

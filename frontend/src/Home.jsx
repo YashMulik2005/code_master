@@ -13,15 +13,15 @@ function Home() {
     axios.defaults.withCredentials = true;
 
     const getlogedin = async () => {
-        const result = await axios.get('http://localhost:3000/');
+        const result = await axios.get('http://localhost:3000/user');
         console.log(result.data.data);
         if (result.data.data.sucess) {
-            console.log("if");
+            // console.log("if");
             setlogedin(true)
             setcontextusername(result.data.data.username)
         }
         else {
-            console.log("else");
+            // console.log("else");
             setlogedin(false)
             setcontextusername("")
         }

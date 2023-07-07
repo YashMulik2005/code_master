@@ -89,7 +89,7 @@ function Questioncompiler({ maindata }) {
             });
         } else {
             setloader(true)
-            const result = await axios.post("http://localhost:3000/compiler", { data: data })
+            const result = await axios.post("http://localhost:3000/practice/compiler", { requestdata: data })
             console.log(result);
             setoutput(result.data.data.result.output)
             let ans = result.data.data.result.output;
@@ -130,7 +130,7 @@ function Questioncompiler({ maindata }) {
         }
         else {
             setloader(true)
-            const result = await axios.post("http://localhost:3000/compiler", { data: data })
+            const result = await axios.post("http://localhost:3000/practice/compiler", { requestdata: data })
             console.log(result);
             let ans = result.data.data.result.output;
 
@@ -139,7 +139,7 @@ function Questioncompiler({ maindata }) {
                     "username": contextusername,
                     "id": maindata.id
                 }
-                const res = await axios.post("http://localhost:3000/solved", { data: data })
+                const res = await axios.post("http://localhost:3000/practice/solved", { data: data })
                 console.log(res);
                 if (res.data.data.sucess) {
                     setmessage("sucessful")

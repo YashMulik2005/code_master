@@ -45,14 +45,19 @@ function onlinecompiler() {
     const data = {
         "language": language,
         "code": code,
-        "input": input
+        "input": null
     }
 
     const handlerun = async () => {
-        const result = await axios.post("http://localhost:3000/compiler", { data: data })
-        console.log(result);
-        setoutput(result.data.data.result.output)
-        setshow(false)
+        try {
+            const result = await axios.post("http://localhost:3000/practice/compiler", { requestdata: data })
+            console.log(result);
+            setoutput(result.data.data.result.output)
+            setshow(false)
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
 
     const handletheme = () => {
