@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function Coursetopic() {
     const { id } = useParams()
     console.log(id);
-    const { contextusername, logedin, settopic_id } = themehook()
+    const { contextusername, logedin, settopic_id, setcourse_id } = themehook()
     const navigate = useNavigate()
     const [data, setdata] = useState()
     const [track, settrack] = useState()
@@ -20,15 +20,17 @@ function Coursetopic() {
     const [topictrack, settopictrack] = useState()
     const [loader, setloader] = useState(false)
     const [enroll, setenroll] = useState()
+    const url = import.meta.env.VITE_BACKEND;
+
 
     const getdata = async () => {
         setloader(true)
-        console.log('function');
+        // console.log('function');
         const data = {
             "c_id": id,
             "username": contextusername
         }
-        const result = await axios.post(`http://localhost:3000/course/topic`, { data: data })
+        const result = await axios.post(`${url}/course/topic`, { data: data })
         console.log(result.data.data.course_data);
         setdata(result.data.data.course_data.c_data);
         settrack(result.data.data.course_data.track)
@@ -36,12 +38,12 @@ function Coursetopic() {
     }
     const gettopicdata = async () => {
         setloader(true)
-        console.log('function');
+        // console.log('function');
         const data = {
             "c_id": id,
             "username": contextusername
         }
-        const result = await axios.post(`http://localhost:3000/course/t`, { data: data })
+        const result = await axios.post(`${url}/course/t`, { data: data })
         console.log(result.data.data.course_data);
         settopic(result.data.data.course_data.c_data);
         settopictrack(result.data.data.course_data.track)
@@ -62,12 +64,12 @@ function Coursetopic() {
             });
         }
         else {
-            console.log("enroll");
+            // console.log("enroll");
             const data = {
                 "username": contextusername,
                 "c_id": id
             }
-            const result = await axios.post("http://localhost:3000/course/enroll", { data: data });
+            const result = await axios.post(`${url}/course/enroll`, { data: data });
             console.log(result)
             if (result.data.data.sucess) {
                 setenroll(true)
@@ -106,11 +108,11 @@ function Coursetopic() {
     //         navigate("/course/topic")
     //     }
     // }
-
     useEffect(() => {
+
         getdata()
         gettopicdata()
-    }, [enroll])
+    }, [enroll, contextusername])
 
     return (
         <div>
@@ -127,7 +129,9 @@ function Coursetopic() {
                                     <p className=' text-sm sm:text-md lg:text-lg font-semibold'>{item.description}</p>
                                     <h1 className=' font-bold'>modules:{item.modules}</h1>
                                     {
-                                        (item.id == track[item.id] ? <button className={` border-b-2 border-green-500 py-[2px] px-3 hover:border-black hover:bg-green-500 hover:text-white font-semibold m-2`}>continue</button> : <button onClick={handleenroll} className={` bg-green-600 text-white py-1 px-5 rounded-xl hover:bg-green-800 font-semibold m-2 `} >Enroll for free</button>)
+                                        (Object.keys(topictrack).length == item.modules ? <button className=' bg-green-600 m-2 px-5 py-1 text-white rounded-3xl font-bold'>Complete</button> :
+                                            (item.id == track[item.id] ? <button className={` border-b-2 border-green-500 py-[2px] px-3 hover:border-black hover:bg-green-500 hover:text-white font-semibold m-2`}>continue</button> : <button onClick={handleenroll} className={` bg-green-600 text-white py-1 px-5 rounded-xl hover:bg-green-800 font-semibold m-2 `} >Enroll for free</button>)
+                                        )
                                     }
                                 </div>
                             })
@@ -166,6 +170,7 @@ function Coursetopic() {
                                                 }
                                                 else {
                                                     settopic_id(item.id)
+                                                    setcourse_id(id)
                                                     navigate("/course/topic")
                                                 }
                                             }}><buttton className=" font-bold">Start</buttton> <AiFillCaretRight size={20} className=' mx-1 text-blue-600' /> </section>)}</td>

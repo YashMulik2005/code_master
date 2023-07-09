@@ -12,10 +12,11 @@ function Practice() {
     const [loader, setloader] = useState(false)
     const naviagte = useNavigate()
     console.log(topic);
+    const url = import.meta.env.VITE_BACKEND;
 
     const getdata = async () => {
         setloader(true)
-        const result = await axios.get(`http://localhost:3000/practice/${topic}`);
+        const result = await axios.get(`${url}/practice/${topic}`);
         setoutput(result.data.data.result);
         setloader(false)
         console.log(result.data.data.result);

@@ -32,7 +32,7 @@ router.get("/", (req, res) => {
 router.post("/login", (req, res) => {
   const { data } = req.body;
   con.query(
-    "select * from users where username= ?",
+    "select * from users where username= ? ",
     data.username,
     (err, result) => {
       if (err) {

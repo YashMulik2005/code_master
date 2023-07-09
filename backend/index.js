@@ -3,7 +3,6 @@ const cors = require("cors");
 const session = require("express-session");
 const bodyPerser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const axios = require("axios");
 
 const app = express();
 const courseRoute = require("./routes/Course");

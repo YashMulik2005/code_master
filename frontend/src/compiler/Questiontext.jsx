@@ -22,7 +22,7 @@ function Questiontext({ maindata }) {
                 </section>
                 <section className='p-3'>
                     <h1 className=' text-xl font-semibold my-2'>Sample 1:</h1>
-                    <table className=' border-collapse w-[90%] bg-gray-100 text-black'>
+                    <table className=' border-collapse w-[90%] bg-gray-900 border-gray-700 text-white'>
                         <thead>
                             <tr className=''>
                                 <th className=' border-b-[1px] border-r-[1px] p-3 w-[50%]'>input</th>
@@ -31,15 +31,15 @@ function Questiontext({ maindata }) {
                         </thead>
                         <tbody>
                             <tr>
-                                <td className=' border-r-[1px] p-3'>{maindata.testcase1}</td>
-                                <td className='p-3'>{maindata.testcase1_ans}</td>
+                                <td className=' border-r-[1px] p-3'><pre>{maindata.testcase1}</pre></td>
+                                <td className='p-3'><pre>{maindata.testcase1_ans}</pre></td>
                             </tr>
                         </tbody>
                     </table>
                 </section>
                 <section className='p-3'>
                     <h1 className=' text-xl font-semibold my-2'>Sample 2:</h1>
-                    <table className=' border-collapse w-[90%] bg-gray-100 text-black'>
+                    <table className=' border-collapse w-[90%] bg-gray-900 border-gray-700 text-white'>
                         <thead>
                             <tr className=''>
                                 <th className=' border-b-[1px] border-r-[1px] p-3 w-[50%]'>input</th>
@@ -48,8 +48,8 @@ function Questiontext({ maindata }) {
                         </thead>
                         <tbody>
                             <tr>
-                                <td className=' border-r-[1px] p-3'>{maindata.testcase2}</td>
-                                <td className='p-3'>{maindata.testcase2_ans}</td>
+                                <td className=' border-r-[1px] p-3'><pre>{maindata.testcase2}</pre></td>
+                                <td className='p-3'><pre>{maindata.testcase2_ans}</pre></td>
                             </tr>
                         </tbody>
                     </table>

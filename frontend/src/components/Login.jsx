@@ -14,6 +14,7 @@ function Login() {
     const { theme, setcontextusername, setlogedin } = themehook()
     const navigate = useNavigate()
     axios.defaults.withCredentials = true;
+    const url = import.meta.env.VITE_BACKEND;
 
     const handlesubmit = async (e) => {
         e.preventDefault()
@@ -23,7 +24,7 @@ function Login() {
             "password": password
         }
         try {
-            const result = await axios.post('http://localhost:3000/user/login', { data: data })
+            const result = await axios.post(`${url}/user/login`, { data: data })
             console.log(result.data.data.sucess);
             if (result.data.data.sucess) {
                 setloader(false)
@@ -61,7 +62,7 @@ function Login() {
                     setpassword(e.target.value)
                 }} /><br />
                 <section className=' flex flex-col justify-center items-center'>
-                    <input type='submit' className=' bg-green-600 p-1 w-[90%] rounded-2xl text-white font-semibold mt-6' />
+                    <input type='submit' className='bg-green-600 p-1 w-[90%] rounded-2xl text-white font-semibold mt-6' />
                     <h1 className=' font-semibold'>or</h1>
                     <section className=' flex'>
                         <AiFillGoogleCircle size={36} className=' mx-2' />

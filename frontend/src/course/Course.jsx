@@ -10,13 +10,14 @@ function Course() {
     const [data, setdata] = useState()
     const [track, settrack] = useState()
     const [loder, setloder] = useState(false)
+    const url = import.meta.env.VITE_BACKEND;
 
     const getdata = async () => {
         setloder(true)
         const data = {
             "username": contextusername
         }
-        const result = await axios.post("http://localhost:3000/course/all", { data: data })
+        const result = await axios.post(`${url}/course/all`, { data: data })
         setdata(result.data.data.couse_data.c_data);
         settrack(result.data.data.couse_data.track)
         console.log(result.data.data.couse_data);
@@ -27,7 +28,7 @@ function Course() {
     }, [contextusername])
 
     return (
-        <div className=' sm:p-6'>
+        <div className=' sm:p-6' id='course'>
             < div className=' flex flex-col md:flex-row p-4 justify-center items-center mx-3'>
                 <section className=' w-[100%] md:w-1/3'>
                     <h1 className=' font-bold text-green-500 text-4xl'>Code-Master courses</h1>

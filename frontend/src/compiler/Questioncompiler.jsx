@@ -20,9 +20,9 @@ import 'react-toastify/dist/ReactToastify.css';
 function Questioncompiler({ maindata }) {
     console.log(maindata.testcase1);
     const navigate = useNavigate()
+    const url = import.meta.env.VITE_BACKEND;
 
-
-    const { logedin, contextusername } = themehook()
+    const { logedin, contextusername, setlogedin, setcontextusername } = themehook()
     const codedata = {
         "cpp14": `#include<iostream>\nusing namespace std;\nint main(){\n  cout<<"hello world"<<endl;\n  return 0;\n}`,
         "python": `print("hello world")`,
@@ -43,7 +43,6 @@ function Questioncompiler({ maindata }) {
 
     const getcode = React.useCallback((value, viewUpdate) => {
         setcode(value)
-        console.log(code);
     }, [])
 
     const getinput = React.useCallback((value, viewUpdate) => {
@@ -89,11 +88,13 @@ function Questioncompiler({ maindata }) {
             });
         } else {
             setloader(true)
-            const result = await axios.post("http://localhost:3000/practice/compiler", { requestdata: data })
+            const result = await axios.post(`${url}/practice/compiler`, { requestdata: data })
             console.log(result);
             setoutput(result.data.data.result.output)
             let ans = result.data.data.result.output;
-
+            // if ("100\n" == maindata.testcase1_ans) {
+            //     console.log("true");
+            // }
             if (ans == maindata.testcase1_ans) {
                 setmessage("sucessful")
                 setstatus(true)
@@ -130,16 +131,18 @@ function Questioncompiler({ maindata }) {
         }
         else {
             setloader(true)
-            const result = await axios.post("http://localhost:3000/practice/compiler", { requestdata: data })
+            const result = await axios.post(`${url}/practice/compiler`, { requestdata: data })
             console.log(result);
             let ans = result.data.data.result.output;
-
+            // if (maindata.testcase2_ans == "0\n") {
+            //     console.log("yes");
+            // }
             if (ans == maindata.testcase2_ans) {
                 const data = {
                     "username": contextusername,
                     "id": maindata.id
                 }
-                const res = await axios.post("http://localhost:3000/practice/solved", { data: data })
+                const res = await axios.post(`${url}/practice/solved`, { data: data })
                 console.log(res);
                 if (res.data.data.sucess) {
                     setmessage("sucessful")
@@ -163,9 +166,25 @@ function Questioncompiler({ maindata }) {
         }
     }
 
+    const getlogedin = async () => {
+        const result = await axios.get(`${url}/user`);
+        console.log(result.data.data);
+        if (result.data.data.sucess) {
+            // console.log("if");
+            setlogedin(true)
+            setcontextusername(result.data.data.username)
+        }
+        else {
+            // console.log("else");
+            setlogedin(false)
+            setcontextusername("")
+        }
+    }
+
 
     useEffect(() => {
-    }, [])
+        getlogedin()
+    }, [contextusername])
 
     return (
         <div className='  relative sm:static'>
@@ -220,9 +239,9 @@ function Questioncompiler({ maindata }) {
                 />
             </div>
             <div id="output">
-                {(loader ? <section className=' p-2 flex justify-center items-center font-extrabold'>
-                    <BeatLoader size={18} color='blue' />
-                    <h1 className=' text-lg'>Compiling</h1>
+                {(loader ? <section className=' p-2 flex justify-center items-center font-bold'>
+                    <BeatLoader size={15} color='green' />
+                    <h1 className=' text-lg mx-2'>Compiling</h1>
                 </section> :
                     <div className={`${status ? "" : " hidden"}  p-1 px-7`} >
                         <section className={`${err ? "bg-green-600" : "bg-red-500"} text-white p-2 flex items-center justify-between rounded`}>
@@ -244,8 +263,8 @@ function Questioncompiler({ maindata }) {
                 />
             </div>
             <div className=' p-2 absolute right-4 bottom-2'>
-                <button onClick={handlerun} className=' bg-green-600 text-white px-6 py-[6px] rounded-lg mx-2 font-semibold'> <Link to="#output">run</Link></button>
-                <button onClick={handlesubmit} className=' bg-green-600 text-white px-6 py-[6px] rounded-lg mx-2 font-semibold'> Submit</button>
+                <button onClick={handlerun} className=' bg-green-600 text-white px-6 py-[6px] rounded-lg mx-2 font-semibold'> <a href="#output">run</a></button>
+                <button onClick={handlesubmit} className=' bg-green-600 text-white px-6 py-[6px] rounded-lg mx-2 font-semibold'><a href='#output'>Submit</a></button>
             </div>
             <ToastContainer />
         </div>

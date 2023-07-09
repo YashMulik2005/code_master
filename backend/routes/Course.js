@@ -67,7 +67,9 @@ router.post("/t", (req, res) => {
               });
             } else {
               console.log(result.length);
-              track[result[0].c_id] = result[0].c_id;
+              for (let i = 0; i < result.length; i++) {
+                track[result[i].t_id] = result[i].t_id;
+              }
               const course_data = {
                 c_data: r,
                 track: track,
@@ -85,6 +87,7 @@ router.post("/t", (req, res) => {
 
 router.post("/topic", (req, res) => {
   const { data } = req.body;
+  // console.log(" topic " + data.username);
   con.query("select * from courses where id = ? ", data.c_id, (err, result) => {
     if (err) {
       return res.status(400).json({
@@ -169,6 +172,25 @@ router.post("/all", (req, res) => {
       );
     }
   });
+});
+
+router.post("/topiccomplete", (req, res) => {
+  const { data } = req.body;
+  con.query(
+    "insert into topics_track (c_id,t_id,u_id,status) values (?,?,?,?)",
+    [data.c_id, data.t_id, data.u_id, "yes"],
+    (err, result) => {
+      if (err) {
+        res.status(400).json({
+          data: { error: err },
+        });
+      } else {
+        res.status(200).json({
+          data: { sucess: true },
+        });
+      }
+    }
+  );
 });
 
 module.exports = router;

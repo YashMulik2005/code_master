@@ -27,7 +27,7 @@ function Signup() {
             "lname": lname
         }
 
-        const result = await axios.post('http://localhost:3000/user/sighup', { data: data })
+        const result = await axios.post(`${url}/user/sighup`, { data: data })
         console.log(result);
         if (result.data.data.sucess) {
             setstatement("Account created sucessfully.")

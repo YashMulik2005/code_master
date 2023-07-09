@@ -14,13 +14,14 @@ function Question() {
     const [loader, setloader] = useState(false)
     const { id } = useParams();
     console.log(id);
+    const url = import.meta.env.VITE_BACKEND;
 
     const getdata = async () => {
         setloader(true)
         const data = {
             "username": contextusername
         }
-        const result = await axios.post(`http://localhost:3000/practice/question/${id}`, { data: data });
+        const result = await axios.post(`${url}/practice/question/${id}`, { data: data });
         setdata(result.data.data.r.q_data)
         console.log(result.data.data.r.q_data);
         setstatus(result.data.data.r.status);
