@@ -1,6 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const con = require("../db");
+const session = require("express-session");
+const app = express();
+
+app.use(
+  session({
+    secret: "secret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false,
+      maxAge: 1000 * 60 * 60 * 24,
+    },
+  })
+);
 
 router.get("/profile", (req, res) => {
   req.session.destroy((err) => {

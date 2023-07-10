@@ -15,6 +15,7 @@ function Signup() {
     const [statement, setstatement] = useState("")
     const [loader, setloader] = useState(false)
     const navigate = useNavigate()
+    const url = import.meta.env.VITE_BACKEND;
 
     const handlesubmit = async (e) => {
         e.preventDefault()

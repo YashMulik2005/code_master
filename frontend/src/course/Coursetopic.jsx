@@ -129,7 +129,8 @@ function Coursetopic() {
                                     <p className=' text-sm sm:text-md lg:text-lg font-semibold'>{item.description}</p>
                                     <h1 className=' font-bold'>modules:{item.modules}</h1>
                                     {
-                                        (Object.keys(topictrack).length == item.modules ? <button className=' bg-green-600 m-2 px-5 py-1 text-white rounded-3xl font-bold'>Complete</button> :
+                                        // (Object.keys(topictrack).length == item.modules ? <button className=' bg-green-600 m-2 px-5 py-1 text-white rounded-3xl font-bold'>Complete</button> :
+                                        (
                                             (item.id == track[item.id] ? <button className={` border-b-2 border-green-500 py-[2px] px-3 hover:border-black hover:bg-green-500 hover:text-white font-semibold m-2`}>continue</button> : <button onClick={handleenroll} className={` bg-green-600 text-white py-1 px-5 rounded-xl hover:bg-green-800 font-semibold m-2 `} >Enroll for free</button>)
                                         )
                                     }
