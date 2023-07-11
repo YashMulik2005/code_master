@@ -3,11 +3,11 @@ const cors = require("cors");
 const session = require("express-session");
 const bodyPerser = require("body-parser");
 const cookieParser = require("cookie-parser");
-
 const app = express();
 const courseRoute = require("./routes/Course");
 const userRoute = require("./routes/User");
 const practiceRoute = require("./routes/Practice");
+const certifyRoute = require("./routes/Certify");
 
 // app.use(cors());
 app.use(
@@ -35,6 +35,7 @@ app.use(
 app.use("/course", courseRoute);
 app.use("/user", userRoute);
 app.use("/practice", practiceRoute);
+app.use("/certify", certifyRoute);
 
 app.listen(3000, () => {
   console.log("server is running");
