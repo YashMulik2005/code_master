@@ -18,7 +18,6 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
 function Questioncompiler({ maindata }) {
-    console.log(maindata.testcase1);
     const navigate = useNavigate()
     const url = import.meta.env.VITE_BACKEND;
 

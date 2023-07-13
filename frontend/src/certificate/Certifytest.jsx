@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { MdDarkMode, MdOutlineLightMode } from 'react-icons/md'
 import axios from 'axios';
+import Questiontext from '../compiler/Questiontext';
+import Questioncompiler from '../compiler/Questioncompiler';
 
 function Certifytest() {
     const { id } = useParams()
@@ -11,6 +13,7 @@ function Certifytest() {
     const [status, setstatus] = useState(false)
     const [title, settitle] = useState("")
     const [text, settext] = useState("")
+    const [data, setdata] = useState()
     const url = import.meta.env.VITE_BACKEND;
 
     const getdata = async () => {
@@ -19,8 +22,8 @@ function Certifytest() {
         }
         const result = await axios.post(`${url}/certify/question`, { data: rdata })
         console.log(result);
+        setdata(result.data.data.result)
     }
-
 
     useEffect(() => {
         getdata()
@@ -39,7 +42,6 @@ function Certifytest() {
             }
         }, 1000);
         return () => clearInterval(interval);
-
     }, [])
 
     return (
@@ -52,7 +54,7 @@ function Certifytest() {
                     <button className=' bg-green-700 text-white font-bold py-1 px-4 rounded-3xl'><Link to={`/certificate/dashboard`}>Dashboard</Link></button>
                 </form>
             </dialog>
-            <div className=' h-[13vh] flex items-center shadow-xl justify-between'>
+            <div className=' h-[13vh] flex items-center shadow-xl justify-between '>
                 <section className=' flex items-center'>
                     <section className=' bg-[#191919] h-[70%] flex justify-center items-center rounded-md p-3 mx-4'>
                         <h1 className=' font-bold text-xl'>End in <span id='timer'>{min < 10 ? "0" + min : min}</span>{sec < 10 ? ":0" + sec : ":" + sec}<span></span></h1>
@@ -64,6 +66,14 @@ function Certifytest() {
                 <section className=' p-4'>
                     <MdOutlineLightMode size={30} />
                 </section>
+            </div>
+            <div className=' flex flex-col sm:flex-row h-[89vh]'>
+                <div className=' w-[100%] sm:w-[50%] border-b-2 sm:border-r-2 sm:border-b-0 p-2 sm:overflow-y-auto'>
+                    <Questiontext maindata={data ? data[0] : ""} />
+                </div>
+                <div className=' w-[100%] sm:w-[50%] sm:overflow-y-auto'>
+                    <Questioncompiler maindata={data ? data[0] : ""} />
+                </div>
             </div>
         </div>
     )
