@@ -42,7 +42,7 @@ function App() {
             <Route path='/practice/question/:id' element={<Question />} />
             <Route path='/certificate/rule/:id' element={<Rules />} />
             <Route path='/certificate/dashboard/:id' element={<Dashboard />} />
-            <Route path='/certificate/question/:id' element={<Certifytest />} />
+            <Route path='/certificate/question/:c_id/:t_id' element={<Certifytest />} />
           </Routes>
         </BrowserRouter>
       </div>

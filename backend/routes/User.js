@@ -1,93 +1,87 @@
 const express = require("express");
 const router = express.Router();
-const con = require("../db");
+const UserModel = require("../models/user");
+const CourseModel = require("../models/course");
+const CourseTrack = require("../models/Course_tarck");
 
-router.get("/profile", (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
+// router.post("/add", async (req, res) => {
+//   try {
+//     const { data } = req.body;
+//     const course = new CourseTrack({
+//       c_id: data.c_id,
+//       u_id: data.username,
+//       status: "completed",
+//     });
+//     await course.save();
+//     return res.status(200).json({
+//       data: { success: true },
+//     });
+//   } catch (err) {
+//     console.log(err);
+//     return res.status(400).json({
+//       data: { error: err },
+//     });
+//   }
+// });
+
+router.post("/login", async (req, res) => {
+  try {
+    const { data } = req.body;
+    const user = await UserModel.findOne({ username: data.username });
+
+    if (!user) {
       return res.status(200).json({
-        data: { sucess: false },
+        data: { success: false },
       });
     } else {
-      return res.status(200).json({
-        data: { sucess: true },
-      });
+      if (data.password === user.password) {
+        return res.status(200).json({
+          data: { success: true },
+        });
+      } else {
+        return res.status(200).json({
+          data: { success: false },
+        });
+      }
     }
-  });
-});
-
-router.get("/", (req, res) => {
-  if (req.session.username) {
-    return res.status(200).json({
-      data: { sucess: true, username: req.session.username },
-    });
-  } else {
-    return res.status(200).json({
-      data: { sucess: false },
+  } catch (err) {
+    return res.status(400).json({
+      data: { error: err },
     });
   }
 });
 
-router.post("/login", (req, res) => {
-  const { data } = req.body;
-  con.query(
-    "select * from users where username= ? ",
-    data.username,
-    (err, result) => {
-      if (err) {
-        return res.status(400).json({
-          data: { error: err },
-        });
-      }
-      if (result && result.length == 0) {
-        return res.status(200).json({
-          data: { sucess: false },
-        });
-      } else {
-        if (data.password == result[0].password) {
-          req.session.username = result[0].username;
-          return res.status(200).json({
-            data: { sucess: true },
-          });
-        } else {
-          return res.status(200).json({
-            data: { sucess: true },
-          });
-        }
-      }
-    }
-  );
-});
+router.post("/sighup", async (req, res) => {
+  try {
+    const { data } = req.body;
 
-router.post("/sighup", (req, res) => {
-  const { data } = req.body;
-  con.query(
-    "select * from users where username=?",
-    data.username,
-    (err, result) => {
-      if (result && result.length > 0) {
-        return res.status(200).json({
-          data: { sucess: false },
-        });
-      } else {
-        con.query(
-          "insert into users (username,email,password,fname,lname) values (?,?,?,?,?)",
-          [data.username, data.email, data.password, data.fname, data.lname],
-          (err, result) => {
-            if (err) {
-              return res.status(400).json({
-                data: { error: err },
-              });
-            } else {
-              return res.status(200).json({
-                data: { sucess: true },
-              });
-            }
-          }
-        );
-      }
+    const existingUser = await UserModel.findOne({ username: data.username });
+
+    if (existingUser) {
+      return res.status(200).json({
+        data: { success: false },
+      });
     }
-  );
+
+    const newUser = new UserModel({
+      username: data.username,
+      email: data.email,
+      password: data.password,
+      fname: data.fname,
+      lname: data.lname,
+    });
+
+    await newUser.save();
+
+    return res.status(200).json({
+      data: { success: true },
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({
+      data: { error: err },
+    });
+  }
 });
 
 module.exports = router;

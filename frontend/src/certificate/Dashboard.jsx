@@ -61,7 +61,7 @@ function Dashboard() {
                                     <td className=' p-3 font-semibold text-left text-green-600'>{item.name}</td>
                                     <td className='text-white p-3 font-semibold text-left hover:text-black'>{item.topic}</td>
                                     <td className='text-white p-3 font-semibold text-left hover:text-black'>{(track[item.id] == item.id) ? <Link className='flex items-center'>complete <IoMdCheckmarkCircle className='' /></Link> :
-                                        <Link to={`/certificate/question/${item.id}`} className='flex items-center'>solve <AiOutlineArrowRight className='' /></Link>
+                                        <Link to={`/certificate/question/${id}/${item.id}`} className='flex items-center'>solve <AiOutlineArrowRight className='' /></Link>
                                     }
                                     </td>
                                 </tr>

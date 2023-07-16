@@ -3,10 +3,10 @@ import { Link, useParams } from 'react-router-dom'
 import { MdDarkMode, MdOutlineLightMode } from 'react-icons/md'
 import axios from 'axios';
 import Questiontext from '../compiler/Questiontext';
-import Questioncompiler from '../compiler/Questioncompiler';
+import Compiler from './Compiler';
 
 function Certifytest() {
-    const { id } = useParams()
+    const { c_id, t_id } = useParams()
     let seconds = 1200;
     const [min, setmin] = useState(Math.floor(seconds / 60))
     const [sec, setsec] = useState(Math.floor(seconds % 60))
@@ -15,16 +15,14 @@ function Certifytest() {
     const [text, settext] = useState("")
     const [data, setdata] = useState()
     const url = import.meta.env.VITE_BACKEND;
-
     const getdata = async () => {
         const rdata = {
-            "t_id": id
+            "t_id": t_id
         }
         const result = await axios.post(`${url}/certify/question`, { data: rdata })
         console.log(result);
         setdata(result.data.data.result)
     }
-
     useEffect(() => {
         getdata()
         const interval = setInterval(() => {
@@ -72,7 +70,7 @@ function Certifytest() {
                     <Questiontext maindata={data ? data[0] : ""} />
                 </div>
                 <div className=' w-[100%] sm:w-[50%] sm:overflow-y-auto'>
-                    <Questioncompiler maindata={data ? data[0] : ""} />
+                    <Compiler maindata={data ? data[0] : ""} c_id={c_id} />
                 </div>
             </div>
         </div>

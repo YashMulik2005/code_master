@@ -1,8 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
-const bodyPerser = require("body-parser");
+const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const mongoose = require("mongoose");
 const app = express();
 const courseRoute = require("./routes/Course");
 const userRoute = require("./routes/User");
@@ -20,17 +21,22 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-  session({
-    secret: "secret",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: false,
-      maxAge: 1000 * 60 * 60 * 24,
-    },
+
+mongoose.set("strictQuery", false);
+var db =
+  "mongodb+srv://yashmulik95:RbzhKy87YXa3L59T@cluster0.zijivgh.mongodb.net/code_master?retryWrites=true&w=majority";
+
+mongoose
+  .connect(db, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
   })
-);
+  .then(() => {
+    console.log("connect");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 app.use("/course", courseRoute);
 app.use("/user", userRoute);

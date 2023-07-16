@@ -10,18 +10,26 @@ function Profile() {
     const url = import.meta.env.VITE_BACKEND;
 
     const handlelogout = async () => {
-        const result = await axios.get(`${url}/user/profile`)
-        console.log(result);
-        if (result.data.data.sucess) {
-            setlogedin(false)
-            setcontextusername("")
-            navigate("/")
-        }
+        localStorage.removeItem("username");
+        setlogedin(false)
+        setcontextusername("")
+        navigate("/")
     }
+
+    // const handleadd = () => {
+    //     const data = {
+    //         "c_id": "64b423e65bca564c5132eb71",
+    //         "username": "yash02",
+    //     }
+
+    //     const res = axios.post(`${url}/user/add`, { data: data })
+    //     console.log(res);
+    // }
 
     return (
         <div >
             <button onClick={handlelogout}>logout</button>
+            {/* <button onClick={handleadd}>add</button> */}
         </div>
     )
 }
