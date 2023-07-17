@@ -16,20 +16,22 @@ function Profile() {
         navigate("/")
     }
 
-    // const handleadd = () => {
-    //     const data = {
-    //         "c_id": "64b423e65bca564c5132eb71",
-    //         "username": "yash02",
-    //     }
+    const handleadd = () => {
+        const data = {
+            "c_id": "64b423e65bca564c5132eb71",
+            "t_id": "64b53a504a5d0eef3cb1eb10",
+            "u_id": "yash02",
+            "status": "completed"
+        }
 
-    //     const res = axios.post(`${url}/user/add`, { data: data })
-    //     console.log(res);
-    // }
+        const res = axios.post(`${url}/user/add`, { data: data })
+        console.log(res);
+    }
 
     return (
         <div >
             <button onClick={handlelogout}>logout</button>
-            {/* <button onClick={handleadd}>add</button> */}
+            <button onClick={handleadd}>add</button>
         </div>
     )
 }

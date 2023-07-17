@@ -2,133 +2,129 @@ const express = require("express");
 const router = express.Router();
 const CourseModel = require("../models/course");
 const CourseTrack = require("../models/Course_tarck");
+const TopicModel = require("../models/topic");
+const TopicTrackModel = require("../models/topic_track");
 
-// router.post("/singletopic", (req, res) => {
-//   const { data } = req.body;
-//   con.query("select * from topics where id = ?", data.t_id, (err, result) => {
-//     if (err) {
-//       res.status(400).json({
-//         data: { error: err },
-//       });
-//     } else {
-//       res.status(200).json({
-//         data: { result },
-//       });
-//     }
-//   });
-// });
+router.post("/singletopic", async (req, res) => {
+  try {
+    const { data } = req.body;
 
-// router.post("/enroll", (req, res) => {
-//   const { data } = req.body;
-//   con.query(
-//     "insert into courses_track (c_id,u_id,status) values (?,?,?)",
-//     [data.c_id, data.username, "yes"],
-//     (err, result) => {
-//       if (err) {
-//         res.status(400).json({
-//           data: { error: err },
-//         });
-//       } else {
-//         res.status(200).json({
-//           data: { sucess: true },
-//         });
-//       }
-//     }
-//   );
-// });
+    const topic = await TopicModel.findOne({ _id: data.t_id });
 
-// router.post("/t", (req, res) => {
-//   const { data } = req.body;
-//   con.query(
-//     "select * from topics where c_id = ? ",
-//     data.c_id,
-//     (err, result) => {
-//       if (err) {
-//         return res.status(400).json({
-//           data: { error: err },
-//         });
-//       } else {
-//         let r = result;
-//         let track = {};
-//         con.query(
-//           "select * from topics_track where c_id = ? and u_id = ?",
-//           [data.c_id, data.username],
-//           (err, result) => {
-//             if (err) {
-//               return res.status(400).json({
-//                 data: { error: err },
-//               });
-//             } else if (result && result.length == 0) {
-//               const course_data = {
-//                 c_data: r,
-//                 track: track,
-//               };
-//               return res.status(200).json({
-//                 data: { course_data },
-//               });
-//             } else {
-//               console.log(result.length);
-//               for (let i = 0; i < result.length; i++) {
-//                 track[result[i].t_id] = result[i].t_id;
-//               }
-//               const course_data = {
-//                 c_data: r,
-//                 track: track,
-//               };
-//               return res.status(200).json({
-//                 data: { course_data },
-//               });
-//             }
-//           }
-//         );
-//       }
-//     }
-//   );
-// });
+    if (!topic) {
+      return res.status(404).json({
+        data: { error: "Topic not found" },
+      });
+    } else {
+      return res.status(200).json({
+        data: { result: topic },
+      });
+    }
+  } catch (err) {
+    return res.status(400).json({
+      data: { error: err },
+    });
+  }
+});
 
-// router.post("/topic", (req, res) => {
-//   const { data } = req.body;
-//   // console.log(" topic " + data.username);
-//   con.query("select * from courses where id = ? ", data.c_id, (err, result) => {
-//     if (err) {
-//       return res.status(400).json({
-//         data: { error: err },
-//       });
-//     } else {
-//       let r = result;
-//       let track = {};
-//       con.query(
-//         "select * from courses_track where c_id = ? and u_id = ?",
-//         [data.c_id, data.username],
-//         (err, result) => {
-//           if (err) {
-//             return res.status(400).json({
-//               data: { error: err },
-//             });
-//           } else if (result && result.length == 0) {
-//             const course_data = {
-//               c_data: r,
-//               track: track,
-//             };
-//             return res.status(200).json({
-//               data: { course_data },
-//             });
-//           } else {
-//             console.log(result.length);
-//             track[result[0].c_id] = result[0].c_id;
-//             const course_data = {
-//               c_data: r,
-//               track: track,
-//             };
-//             return res.status(200).json({
-//               data: { course_data },
-//             });
-//           }
-//         }
-//       );
-//     }
-//   });
-// });
+router.post("/enroll", async (req, res) => {
+  try {
+    const { data } = req.body;
+
+    const courseTrack = new CourseTrack({
+      c_id: data.c_id,
+      u_id: data.username,
+      status: "completed",
+    });
+
+    await courseTrack.save();
+
+    return res.status(200).json({
+      data: { success: true },
+    });
+  } catch (err) {
+    return res.status(400).json({
+      data: { error: err },
+    });
+  }
+});
+
+router.post("/t", async (req, res) => {
+  try {
+    const { data } = req.body;
+
+    const topics = await TopicModel.find({ c_id: data.c_id });
+
+    let track = {};
+    const topicTracks = await TopicTrackModel.find({
+      c_id: data.c_id,
+      u_id: data.username,
+    });
+
+    if (topicTracks && topicTracks.length === 0) {
+      const course_data = {
+        c_data: topics,
+        track: track,
+      };
+      return res.status(200).json({
+        data: { course_data },
+      });
+    } else {
+      for (let i = 0; i < topicTracks.length; i++) {
+        track[topicTracks[i].t_id] = topicTracks[i].t_id;
+      }
+      const course_data = {
+        c_data: topics,
+        track: track,
+      };
+      return res.status(200).json({
+        data: { course_data },
+      });
+    }
+  } catch (err) {
+    return res.status(400).json({
+      data: { error: err },
+    });
+  }
+});
+
+router.post("/topic", async (req, res) => {
+  try {
+    const { data } = req.body;
+
+    const course = await CourseModel.findOne({ _id: data.c_id });
+
+    let track = {};
+    const courseTrack = await CourseTrack.findOne({
+      c_id: data.c_id,
+      u_id: data.username,
+    });
+
+    if (!courseTrack) {
+      const course_data = {
+        c_data: course,
+        track: track,
+      };
+      return res.status(200).json({
+        data: { course_data },
+      });
+    } else {
+      track[courseTrack.c_id] = courseTrack.c_id;
+      const course_data = {
+        c_data: course,
+        track: track,
+      };
+      return res.status(200).json({
+        data: { course_data },
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({
+      data: { error: err },
+    });
+  }
+});
 
 router.post("/all", async (req, res) => {
   try {
@@ -168,23 +164,27 @@ router.post("/all", async (req, res) => {
   }
 });
 
-// router.post("/topiccomplete", (req, res) => {
-//   const { data } = req.body;
-//   con.query(
-//     "insert into topics_track (c_id,t_id,u_id,status) values (?,?,?,?)",
-//     [data.c_id, data.t_id, data.u_id, "yes"],
-//     (err, result) => {
-//       if (err) {
-//         res.status(400).json({
-//           data: { error: err },
-//         });
-//       } else {
-//         res.status(200).json({
-//           data: { sucess: true },
-//         });
-//       }
-//     }
-//   );
-// });
+router.post("/topiccomplete", async (req, res) => {
+  try {
+    const { data } = req.body;
+
+    const topicTrack = new TopicTrackModel({
+      c_id: data.c_id,
+      t_id: data.t_id,
+      u_id: data.u_id,
+      status: "yes",
+    });
+
+    await topicTrack.save();
+
+    return res.status(200).json({
+      data: { success: true },
+    });
+  } catch (err) {
+    return res.status(400).json({
+      data: { error: err },
+    });
+  }
+});
 
 module.exports = router;
