@@ -41,7 +41,7 @@ function Topicdata() {
                 "c_id": course_id
             }
             const result = await axios.post(`${url}/course/topiccomplete`, { data: data })
-            if (result.data.data.sucess) {
+            if (result.data.data.success) {
                 settitle("Right!!!!")
                 setnote("Both answers are right and module is complete.")
                 window.my_modal_3.showModal()

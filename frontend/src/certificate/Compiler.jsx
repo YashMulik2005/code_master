@@ -140,16 +140,16 @@ function Compiler({ maindata, c_id }) {
             if (ans == maindata.testcase2_ans) {
                 const data = {
                     "username": contextusername,
-                    "t_id": maindata.id,
+                    "t_id": maindata._id,
                     "c_id": c_id
                 }
                 const res = await axios.post(`${url}/certify/solved`, { data: data })
                 console.log(res);
-                if (res.data.data.sucess) {
+                if (res.data.data.success) {
                     setmessage("sucessful")
                     setstatus(true)
                     seterr(true)
-                    window.my_modal_3.showModal();
+                    window.my_modal_3.showModal()
                 }
                 else {
                     setmessage("Something went wrong submit aagin")
@@ -168,33 +168,16 @@ function Compiler({ maindata, c_id }) {
         }
     }
 
-    // const getlogedin = async () => {
-    //     const result = await axios.get(`${url}/user`);
-    //     console.log(result.data.data);
-    //     if (result.data.data.sucess) {
-    //         console.log("if");
-    //         setlogedin(true)
-    //         setcontextusername(result.data.data.username)
-    //     }
-    //     else {
-    //         console.log("else");
-    //         setlogedin(false)
-    //         setcontextusername("")
-    //     }
-    // }
-
-
     useEffect(() => {
-        // getlogedin()
+
     }, [])
 
     return (
         <div>   <dialog id="my_modal_3" className="modal">
             <form method="dialog" className="modal-box">
-                {/* <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button> */}
-                <h3 className="font-bold text-lg">Suceesful</h3>
-                <p className="py-4">Move to next question</p>
-                <button className=' bg-green-700 text-white font-bold py-1 px-4 rounded-3xl'><Link to={`/certificate/dashboard`}>Dashboard</Link></button>
+                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                <h3 className="font-bold text-lg">Successful !!!!!</h3>
+                <p className="py-4">move to next question</p>
             </form>
         </dialog>
             <div className='  relative sm:static'>

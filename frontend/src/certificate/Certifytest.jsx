@@ -67,10 +67,10 @@ function Certifytest() {
             </div>
             <div className=' flex flex-col sm:flex-row h-[89vh]'>
                 <div className=' w-[100%] sm:w-[50%] border-b-2 sm:border-r-2 sm:border-b-0 p-2 sm:overflow-y-auto'>
-                    <Questiontext maindata={data ? data[0] : ""} />
+                    <Questiontext maindata={data ? data : ""} />
                 </div>
                 <div className=' w-[100%] sm:w-[50%] sm:overflow-y-auto'>
-                    <Compiler maindata={data ? data[0] : ""} c_id={c_id} />
+                    <Compiler maindata={data ? data : ""} c_id={c_id} />
                 </div>
             </div>
         </div>

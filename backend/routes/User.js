@@ -1,15 +1,25 @@
 const express = require("express");
 const router = express.Router();
 const UserModel = require("../models/user");
-const TopicModel = require("../models/topic");
-const TopicTrackModel = require("../models/topic_track");
+// const CertificateModel = require("../models/certificate");
+// const QuestionModel = require("../models/question");
+// const QuestionTrackModel = require("../models/question_track");
 
 router.post("/add", async (req, res) => {
   try {
     const { data } = req.body;
-    const course = new TopicTrackModel({
+    const course = new CertificateTrackModel({
+      // name: data.name,
+      // description: data.description,
+      // topic: data.topic,
+      // input_format: data.input_format,
+      // output_format: data.output_format,
+      // testcase1: data.testcase1,
+      // testcase1_ans: data.testcase1_ans,
+      // testcase2: data.testcase2,
+      // testcase2_ans: data.testcase2_ans,
+      // explanation: data.explanation,
       c_id: data.c_id,
-      t_id: data.t_id,
       u_id: data.u_id,
       status: data.status,
     });

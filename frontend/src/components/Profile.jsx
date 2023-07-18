@@ -17,13 +17,24 @@ function Profile() {
     }
 
     const handleadd = () => {
+        // const data = {
+        //     "name": `How much Scholarship`,
+        //     "description": `The ZCO Scholarship Contest has just finished, and you finish with a rank of R. You know that Rank 1 to Rank 50 will get 100% scholarship on the ZCO exam fee and Rank 
+        //     51 to Rank 100 will get 50% percentage scholarship on the ZCO exam fee. The rest do not get any scholarship.What percentage of scholarship will you get ?`,
+        //     "topic": `basic programming`,
+        //     "input_format": `Input consist of single line of input containing one integer R.`,
+        //     "output_format": `Output a single line containing one integer — the percentage of scholarship you will get.`,
+        //     "testcase1": `49`,
+        //     "testcase1_ans": `100\n`,
+        //     "testcase2": `317`,
+        //     "testcase2_ans": `0\n`,
+        //     "explanation": `Since 1≤49≤50, answer is 100 percentage scholarship.`,
+        // }
         const data = {
-            "c_id": "64b423e65bca564c5132eb71",
-            "t_id": "64b53a504a5d0eef3cb1eb10",
-            "u_id": "yash02",
-            "status": "completed"
+            "c_id": "64b6786debbb52b171c6b3f3",
+            "u_id": "yash04",
+            "status": "yes"
         }
-
         const res = axios.post(`${url}/user/add`, { data: data })
         console.log(res);
     }

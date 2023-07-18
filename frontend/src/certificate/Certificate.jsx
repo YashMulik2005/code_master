@@ -13,10 +13,10 @@ function Certificate() {
             "username": contextusername
         }
         const result = await axios.post(`${url}/certify`, { data: rdata })
-        console.log(result.data.data.couse_data.c_data);
-        console.log(result.data.data.couse_data.track);
-        setdata(result.data.data.couse_data.c_data);
-        settrack(result.data.data.couse_data.track);
+        console.log(result.data.data.course_data.c_data);
+        console.log(result.data.data.course_data.track);
+        setdata(result.data.data.course_data.c_data);
+        settrack(result.data.data.course_data.track);
     }
 
     useEffect(() => {
@@ -32,8 +32,8 @@ function Certificate() {
                         return <div className=' h-36 shadow-lg shadow-[#000000] flex justify-center items-center flex-col bg-[#191919] rounded-md' key={index}>
                             <h1 className=' text-xl text-green-500 font-bold m-3'>{item.name}</h1>
                             {
-                                (item.id == track[item.id] ? <button>Complete</button> :
-                                    <button className=' bg-green-500 text-white  py-1 px-7 rounded-3xl m-3 font-bold'><Link to={`/certificate/rule/${item.id}`}>Certify</Link></button>
+                                (item._id == track[item._id] ? <button>Complete</button> :
+                                    <button className=' bg-green-500 text-white  py-1 px-7 rounded-3xl m-3 font-bold'><Link to={`/certificate/rule/${item._id}`}>Certify</Link></button>
                                 )
                             }
                         </div>

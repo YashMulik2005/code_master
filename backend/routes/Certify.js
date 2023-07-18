@@ -1,137 +1,133 @@
 const express = require("express");
 const router = express.Router();
+const CertificateModel = require("../models/certificate");
+const CertificateTrackModel = require("../models/certificate_track");
+const CertificateQueTrackModel = require("../models/certificate_que_track");
+const QuestionModel = require("../models/question");
 
-// router.post("/", (req, res) => {
-//   const { data } = req.body;
-//   console.log(data.username);
-//   con.query("select * from certificate", (err, result) => {
-//     if (err) {
-//       return res.status(400).json({
-//         data: { error: err },
-//       });
-//     } else {
-//       //   console.log("second");
-//       const r = result;
-//       const track = {};
-//       con.query(
-//         "select * from certificate_track where u_id = ? ",
-//         data.username,
-//         (err, result) => {
-//           if (err) {
-//             return res.status(400).json({
-//               data: { error: err },
-//             });
-//           } else if (result && result.length == 0) {
-//             let couse_data = {
-//               c_data: r,
-//               track: track,
-//             };
-//             return res.status(200).json({
-//               data: { couse_data },
-//             });
-//           } else {
-//             for (let i = 0; i < result.length; i++) {
-//               track[result[i].c_id] = result[i].c_id;
-//             }
-//             let couse_data = {
-//               c_data: r,
-//               track: track,
-//             };
-//             return res.status(200).json({
-//               data: { couse_data },
-//             });
-//           }
-//         }
-//       );
-//     }
-//   });
-// });
+router.post("/", async (req, res) => {
+  try {
+    const { data } = req.body;
+    console.log(data.username);
 
-// router.post("/dashboard", (req, res) => {
-//   const { data } = req.body;
-//   con.query(
-//     "select * from questions where c_id = ?",
-//     data.c_id,
-//     (err, result) => {
-//       if (err) {
-//         return res.status(400).json({
-//           data: { error: err },
-//         });
-//       } else {
-//         const r = result;
-//         track = {};
-//         con.query(
-//           "select * from certificate_que_track where c_id = ? and u_id = ?",
-//           [data.c_id, data.username],
-//           (err, result) => {
-//             if (err) {
-//               return res.status(400).json({
-//                 data: { error: err },
-//               });
-//             } else if (result && result.length == 0) {
-//               const couse_data = {
-//                 c_data: r,
-//                 track: track,
-//               };
-//               return res.status(200).json({
-//                 data: { couse_data },
-//               });
-//             } else {
-//               for (let i = 0; i < result.length; i++) {
-//                 track[result[i].t_id] = result[i].t_id;
-//               }
-//               let couse_data = {
-//                 c_data: r,
-//                 track: track,
-//               };
-//               return res.status(200).json({
-//                 data: { couse_data },
-//               });
-//             }
-//           }
-//         );
-//       }
-//     }
-//   );
-// });
+    const certificates = await CertificateModel.find();
 
-// router.post("/question", (req, res) => {
-//   const { data } = req.body;
-//   console.log(data);
-//   con.query(
-//     "select * from questions where id = ?",
-//     data.t_id,
-//     (err, result) => {
-//       if (err) {
-//         return res.status(400).json({
-//           data: { error: err },
-//         });
-//       } else {
-//         return res.status(200).json({
-//           data: { result },
-//         });
-//       }
-//     }
-//   );
-// });
+    const track = {};
+    const certificateTracks = await CertificateTrackModel.find({
+      u_id: data.username,
+    });
 
-// router.post("/solved", (req, res) => {
-//   const { data } = req.body;
-//   con.query(
-//     "insert into certificate_que_track (c_id,t_id,u_id,status) values (?,?,?,?)",
-//     [data.c_id, data.t_id, data.username, "yes"],
-//     (err, result) => {
-//       if (err) {
-//         return res.status(400).json({
-//           data: { error: err },
-//         });
-//       } else {
-//         return res.status(200).json({
-//           data: { sucess: true },
-//         });
-//       }
-//     }
-//   );
-// });
+    if (certificateTracks && certificateTracks.length === 0) {
+      const course_data = {
+        c_data: certificates,
+        track: track,
+      };
+      return res.status(200).json({
+        data: { course_data },
+      });
+    } else {
+      for (let i = 0; i < certificateTracks.length; i++) {
+        track[certificateTracks[i].c_id] = certificateTracks[i].c_id;
+      }
+      const course_data = {
+        c_data: certificates,
+        track: track,
+      };
+      return res.status(200).json({
+        data: { course_data },
+      });
+    }
+  } catch (err) {
+    return res.status(400).json({
+      data: { error: err },
+    });
+  }
+});
+
+router.post("/dashboard", async (req, res) => {
+  try {
+    const { data } = req.body;
+
+    const questions = await QuestionModel.find({ c_id: data.c_id });
+
+    const track = {};
+    const certificateQueTracks = await CertificateQueTrackModel.find({
+      c_id: data.c_id,
+      u_id: data.username,
+    });
+
+    if (certificateQueTracks && certificateQueTracks.length === 0) {
+      const course_data = {
+        c_data: questions,
+        track: track,
+      };
+      return res.status(200).json({
+        data: { course_data },
+      });
+    } else {
+      for (let i = 0; i < certificateQueTracks.length; i++) {
+        track[certificateQueTracks[i].t_id] = certificateQueTracks[i].t_id;
+      }
+      const course_data = {
+        c_data: questions,
+        track: track,
+      };
+      return res.status(200).json({
+        data: { course_data },
+      });
+    }
+  } catch (err) {
+    return res.status(400).json({
+      data: { error: err },
+    });
+  }
+});
+
+router.post("/question", async (req, res) => {
+  try {
+    const { data } = req.body;
+    console.log(data);
+
+    const question = await QuestionModel.findOne({ _id: data.t_id });
+
+    if (!question) {
+      return res.status(404).json({
+        data: { error: "Question not found" },
+      });
+    } else {
+      return res.status(200).json({
+        data: { result: question },
+      });
+    }
+  } catch (err) {
+    return res.status(400).json({
+      data: { error: err },
+    });
+  }
+});
+
+router.post("/solved", async (req, res) => {
+  try {
+    const { data } = req.body;
+
+    const certificateQueTrack = new CertificateQueTrackModel({
+      c_id: data.c_id,
+      t_id: data.t_id,
+      u_id: data.username,
+      status: "yes",
+    });
+
+    await certificateQueTrack.save();
+
+    return res.status(200).json({
+      data: { success: true },
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({
+      data: { error: err },
+    });
+  }
+});
 
 module.exports = router;

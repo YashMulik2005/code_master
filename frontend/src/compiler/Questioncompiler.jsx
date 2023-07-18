@@ -139,11 +139,11 @@ function Questioncompiler({ maindata }) {
             if (ans == maindata.testcase2_ans) {
                 const data = {
                     "username": contextusername,
-                    "id": maindata.id
+                    "id": maindata._id
                 }
                 const res = await axios.post(`${url}/practice/solved`, { data: data })
                 console.log(res);
-                if (res.data.data.sucess) {
+                if (res.data.data.success) {
                     setmessage("sucessful")
                     setstatus(true)
                     seterr(true)
@@ -165,24 +165,7 @@ function Questioncompiler({ maindata }) {
         }
     }
 
-    const getlogedin = async () => {
-        const result = await axios.get(`${url}/user`);
-        console.log(result.data.data);
-        if (result.data.data.sucess) {
-            // console.log("if");
-            setlogedin(true)
-            setcontextusername(result.data.data.username)
-        }
-        else {
-            // console.log("else");
-            setlogedin(false)
-            setcontextusername("")
-        }
-    }
-
-
     useEffect(() => {
-        getlogedin()
     }, [contextusername])
 
     return (

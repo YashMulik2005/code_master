@@ -22,8 +22,8 @@ function Dashboard() {
         }
         const result = await axios.post(`${url}/certify/dashboard`, { data: rdata })
         console.log(result);
-        setdata(result.data.data.couse_data.c_data);
-        settrack(result.data.data.couse_data.track);
+        setdata(result.data.data.course_data.c_data);
+        settrack(result.data.data.course_data.track);
     }
 
     useEffect(() => {
@@ -57,11 +57,11 @@ function Dashboard() {
                         {
                             data?.map((item, index) => {
                                 return <tr className=' hover:bg-[#edf1d6] border-b border-slate-500' key={index}>
-                                    <td className=' text-white p-3 font-semibold text-left hover:text-black'>{item.id}</td>
+                                    <td className=' text-white p-3 font-semibold text-left hover:text-black text-sm'>{item._id}</td>
                                     <td className=' p-3 font-semibold text-left text-green-600'>{item.name}</td>
                                     <td className='text-white p-3 font-semibold text-left hover:text-black'>{item.topic}</td>
-                                    <td className='text-white p-3 font-semibold text-left hover:text-black'>{(track[item.id] == item.id) ? <Link className='flex items-center'>complete <IoMdCheckmarkCircle className='' /></Link> :
-                                        <Link to={`/certificate/question/${id}/${item.id}`} className='flex items-center'>solve <AiOutlineArrowRight className='' /></Link>
+                                    <td className='text-white p-3 font-semibold text-left hover:text-black'>{(track[item._id] == item._id) ? <Link className='flex items-center'>complete <IoMdCheckmarkCircle className='' /></Link> :
+                                        <Link to={`/certificate/question/${id}/${item._id}`} className='flex items-center'>solve <AiOutlineArrowRight className='' /></Link>
                                     }
                                     </td>
                                 </tr>
