@@ -28,9 +28,9 @@ function Signup() {
             "lname": lname
         }
 
-        const result = await axios.post(`${url}/user/sighup`, { data: data })
+        const result = await axios.post(`${url}/user/signup`, { data: data })
         console.log(result);
-        if (result.data.data.sucess) {
+        if (result.data.data.success) {
             setstatement("Account created sucessfully.")
             seterr(true)
         }

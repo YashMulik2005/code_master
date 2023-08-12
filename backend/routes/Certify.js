@@ -130,4 +130,50 @@ router.post("/solved", async (req, res) => {
   }
 });
 
+router.post("/certified", async (req, res) => {
+  try {
+    const { data } = req.body;
+    const Certificate = new CertificateTrackModel({
+      c_id: data.c_id,
+      u_id: data.username,
+      status: "yes",
+    });
+
+    await Certificate.save();
+
+    return res.status(200).json({
+      data: { success: true },
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({
+      data: { error: err },
+    });
+  }
+});
+
+router.post("/show", async (req, res) => {
+  const { data } = req.body;
+  const certificate = await CertificateTrackModel.find({
+    u_id: data.username,
+    c_id: data.c_id,
+  });
+  if (!certificate) {
+    return res.status(200).json({
+      data: { success: false },
+    });
+  } else {
+    const course = await CertificateModel.find({ _id: data.c_id });
+    if (course) {
+      const c_data = {
+        course: course,
+        success: true,
+      };
+      return res.status(200).json({
+        data: { c_data },
+      });
+    }
+  }
+});
+
 module.exports = router;

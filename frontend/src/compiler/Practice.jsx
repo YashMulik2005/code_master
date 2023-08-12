@@ -7,7 +7,7 @@ import { AiOutlineArrowRight } from 'react-icons/ai'
 import { BarLoader } from 'react-spinners'
 
 function Practice() {
-    const { topic, settopic, contextusername, logedin } = themehook()
+    const { topic, settopic, contextusername, logedin, setnavbar } = themehook()
     const [output, setoutput] = useState()
     const [loader, setloader] = useState(false)
     const naviagte = useNavigate()
@@ -26,12 +26,16 @@ function Practice() {
         settopic(e.target.textContent)
     }
 
+    const handlenav = () => {
+        setnavbar(false)
+    }
+
     useEffect(() => {
         getdata()
     }, [topic])
 
     return (
-        <div>
+        <div onClick={handlenav}>
             <div>
                 <div className={`p-2 border-b-[1px] relative h-12`}>
                     <div className={`${logedin ? "" : "hidden"} flex absolute right-2`}>
@@ -71,7 +75,7 @@ function Practice() {
                             {
                                 output?.map((item, index) => {
                                     return <tr className=' hover:bg-[#edf1d6] border-b border-slate-500' key={index}>
-                                        <td className=' p-3 font-semibold text-left text-sm'>{item._id}</td>
+                                        <td className=' p-3 font-semibold text-left text-sm'>{index + 1}</td>
                                         <td className=' p-3 font-semibold text-left text-green-600'><Link to={`/practice/question/${item._id}`}>{item.name}</Link></td>
                                         <td className=' p-3 font-semibold text-left'>{item.topic}</td>
                                         <td className=' p-3 font-semibold text-left'><Link to={`/practice/question/${item._id}`} className='flex items-center'>solve <AiOutlineArrowRight className='' /></Link></td>

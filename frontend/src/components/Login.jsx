@@ -11,10 +11,14 @@ function Login() {
     const [password, setpassword] = useState("")
     const [loader, setloader] = useState(false)
     const [err, seterr] = useState(false)
-    const { theme, setcontextusername, setlogedin } = themehook()
+    const { theme, setcontextusername, setlogedin, setnavbar } = themehook()
     const navigate = useNavigate()
     axios.defaults.withCredentials = true;
     const url = import.meta.env.VITE_BACKEND;
+
+    const handlenav = () => {
+        setnavbar(false)
+    }
 
     const handlesubmit = async (e) => {
         e.preventDefault()
@@ -24,7 +28,7 @@ function Login() {
             "password": password
         }
         try {
-            const result = await axios.post(`https://code-master-klc7.onrender.com/user/login`, { data: data })
+            const result = await axios.post(`${url}/user/login`, { data: data })
             console.log(result);
             if (result.data.data.success) {
                 localStorage.setItem("username", username);

@@ -5,6 +5,47 @@ const CourseTrack = require("../models/Course_tarck");
 const TopicModel = require("../models/topic");
 const TopicTrackModel = require("../models/topic_track");
 
+router.post("/add", async (req, res) => {
+  const {
+    c_id,
+    name1,
+    description1,
+    name2,
+    description2,
+    syntax,
+    example,
+    question1,
+    ans1,
+    question2,
+    ans2,
+  } = req.body;
+  try {
+    const topic = new TopicModel({
+      c_id: c_id,
+      name1: name1,
+      description1: description1,
+      name2: name2,
+      description2: description2,
+      syntax: syntax,
+      example: example,
+      question1: question1,
+      ans1: ans1,
+      question2: question2,
+      ans2: ans2,
+    });
+
+    await topic.save();
+    return res.status(200).json({
+      data: { success: true },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      data: { error: err },
+    });
+  }
+});
+
 router.post("/singletopic", async (req, res) => {
   try {
     const { data } = req.body;

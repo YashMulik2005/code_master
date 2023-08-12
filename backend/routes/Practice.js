@@ -4,6 +4,47 @@ const axios = require("axios");
 const QuestionModel = require("../models/question");
 const QuestionTrackModel = require("../models/question_track");
 
+router.post("/add", async (req, res) => {
+  const {
+    name,
+    description,
+    topic,
+    input_format,
+    output_format,
+    testcase1,
+    testcase1_ans,
+    testcase2,
+    testcase2_ans,
+    explanation,
+    c_id,
+  } = req.body;
+  try {
+    const question = new QuestionModel({
+      name: name,
+      description: description,
+      topic: topic,
+      input_format: input_format,
+      output_format: output_format,
+      testcase1: testcase1,
+      testcase1_ans: testcase1_ans,
+      testcase2: testcase2,
+      testcase2_ans: testcase2_ans,
+      explanation: explanation,
+      c_id: c_id,
+    });
+
+    await question.save();
+    return res.status(200).json({
+      data: { success: true },
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({
+      data: { success: false },
+    });
+  }
+});
+
 router.post("/compiler", async (req, res) => {
   const { requestdata } = req.body;
   console.log(requestdata);

@@ -39,7 +39,7 @@ function Compiler({ maindata, c_id }) {
     const [lan, setlan] = useState("cpp14")
     const [err, seterr] = useState(false)
     const [loader, setloader] = useState(false)
-
+    // const history = useHistory();
 
     const getcode = React.useCallback((value, viewUpdate) => {
         setcode(value)
@@ -149,7 +149,7 @@ function Compiler({ maindata, c_id }) {
                     setmessage("sucessful")
                     setstatus(true)
                     seterr(true)
-                    window.my_modal_3.showModal()
+                    navigate(`/certificate/dashboard/${c_id}`)
                 }
                 else {
                     setmessage("Something went wrong submit aagin")
@@ -168,8 +168,16 @@ function Compiler({ maindata, c_id }) {
         }
     }
 
-    useEffect(() => {
+    const handleBeforeUnload = (event) => {
+        event.preventDefault();
+        event.returnValue = 'If you reload the page will become non-functional.'; // This is required for Chrome to show a custom message
+    };
 
+    useEffect(() => {
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
     }, [])
 
     return (

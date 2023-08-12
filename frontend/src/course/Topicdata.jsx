@@ -4,7 +4,7 @@ import axios from 'axios'
 import { Link } from "react-router-dom"
 
 function Topicdata() {
-    const { topic_id, theme, course_id, contextusername } = themehook()
+    const { topic_id, theme, course_id, contextusername, setnavbar } = themehook()
     // console.log(topic_id)
     const [data, setdata] = useState([])
     const [question1, setquestion1] = useState("")
@@ -15,6 +15,10 @@ function Topicdata() {
     const [title, settitle] = useState("")
     const [note, setnote] = useState("")
     const url = import.meta.env.VITE_BACKEND;
+
+    const handlenav = () => {
+        setnavbar(false)
+    }
 
     const getdata = async () => {
         if (topic_id == undefined) {
@@ -74,12 +78,22 @@ function Topicdata() {
         }
     }
 
+    const handleBeforeUnload = (event) => {
+        event.preventDefault();
+        event.returnValue = 'If you reload the page will become non-functional.'; // This is required for Chrome to show a custom message
+    };
+
     useEffect(() => {
         getdata()
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
     }, [])
 
     return (
-        <div className=" sm:mx-20">
+        <div className=" sm:mx-20" onClick={handlenav}>
             <dialog id="my_modal_3" className="modal">
                 <form method="dialog" className="modal-box">
                     <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
