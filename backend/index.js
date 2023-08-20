@@ -9,6 +9,7 @@ const courseRoute = require("./routes/Course");
 const userRoute = require("./routes/User");
 const practiceRoute = require("./routes/Practice");
 const certifyRoute = require("./routes/Certify");
+const discussRoute = require("./routes/Discuss");
 
 // app.use(cors());
 app.use(
@@ -43,6 +44,7 @@ app.use("/course", courseRoute);
 app.use("/user", userRoute);
 app.use("/practice", practiceRoute);
 app.use("/certify", certifyRoute);
+app.use("/discuss", discussRoute);
 
 app.listen(3000, () => {
   console.log("server is running");
